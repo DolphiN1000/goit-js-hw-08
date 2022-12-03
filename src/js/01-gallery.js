@@ -1,41 +1,38 @@
-// Add imports above this line
-import { galleryItems } from './gallery-items';
+import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 // Описаний в документації
 import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
-console.log(galleryItems);
-
 
 const href = {
   listGall: document.querySelector(".gallery"),
 };
 
-let gallArray = [];
-const gallArr = [];
-for (const { preview, original, description } of galleryItems) {
-  gallArr.push(`
-    <a class="gallery__item" href="${original}">
-      <img
-        class="gallery__image"
-        src="${preview}"
-        alt="${description}"
-      />
-    </a>`);
-}
-gallArray = gallArr.join("");
-console.log(gallArr);
+let gallArray = galleryItems
+  .map(({ preview, original, description } = galleryItem) => {
+    return `<div class="gallery__item">
+      <a class="gallery__link" href="${original}">
+        <img
+          // class="gallery__image"
+          src="${preview}"
+          data-source="${original}"
+          alt="${description}"
+          onclick="return false"
+        />
+      </a>
+      </div>`;
+  })
+  .join("");
 
 href.listGall.insertAdjacentHTML("beforeend", gallArray);
-href.listGall.addEventListener("click", (event) => {
-  console.log("event.target: ", event.target);
-});
 
 var lightbox = new SimpleLightbox(".gallery a", {
   /* options */
   captions: true,
   captionsData: "alt",
-  captionAttribute: 'title',
+  captionAttribute: "title",
   captionDelay: 250,
 });
+
+console.dir(SimpleLightbox);
